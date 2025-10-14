@@ -93,7 +93,7 @@ WSGI_APPLICATION = "mediumclone_api.wsgi.application"
 #     }
 # }
 
-# DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {"default": env.db("DATABASE_URL")}
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
@@ -152,3 +152,5 @@ MEDIA_ROOT = str(ROOT_DIR / "mediafiles")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_URLS_REGEX = r"^api/.*$"
+
+AUTH_USER_MODEL = "users.User"
