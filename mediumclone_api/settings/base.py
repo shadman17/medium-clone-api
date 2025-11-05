@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "corsheaders",
+    "djcelery_email",
 ]
 
 LOCAL_APPS = [
@@ -154,3 +155,33 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_URLS_REGEX = r"^api/.*$"
 
 AUTH_USER_MODEL = "users.User"
+
+CELERY_BROKER_URL = env("CELERY_BROKER")
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_RESULT_BACKEND_MAX_RETRIES = 10
+CELERY_TASK_SEND_SENT_EVENT = True
+
+if USE_TZ:
+    CELERY_TIMEZONE = TIME_ZONE
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(name)-12s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "root": {"level": "INFO", "handlers": ["console"]},
+}
